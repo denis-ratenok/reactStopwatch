@@ -32,6 +32,9 @@ class Stopwatch extends React.Component {
 			ready: true,
 			toggleState: 'start',
 		};
+
+		this.reset = this.reset.bind(this);
+		this.toggleStopwatch = this.toggleStopwatch.bind(this);
 	}
 
 
@@ -66,8 +69,8 @@ class Stopwatch extends React.Component {
 	renderStopwatch() {
 		return <div className='stopwatch'>
 				<Time time={this.state.time} />
-				<Toggle onClick = {() => this.toggleStopwatch()} toggleState={this.state.toggleState} />
-				<Reset onClick = {() => this.reset()} />
+				<Toggle onClick = {this.toggleStopwatch} toggleState={this.state.toggleState} />
+				<Reset onClick = {this.reset} />
 			</div>
 	}
 
