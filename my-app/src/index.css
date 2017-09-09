@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+body {
+	background: #202020;
+	color: #fff;
+	overflow: hidden;
+}
+
+.stopwatch {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	top: 50%;
+	margin-top: -70px;
+}
+
+button {
+	width: 80px;
+	text-align: center;
+	font: 1.5rem 'Quicksand', sans-serif;
+	border-radius: 5px;
+	background: #fff;
+	border: none;
+	outline: none;
+}
+
+button:hover {
+	cursor: pointer;
+	box-shadow: 0 0 10px rgba(255,255,255,0.7);
+}
+
+.reset {
+	display: none;
+	margin: 10px auto;
+}
+
+.stopwatch h1 {
+	font: 40px 'Quicksand', sans-serif;
+}
