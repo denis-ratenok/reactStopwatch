@@ -3,6 +3,25 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 
+function Time(props) {
+	return (
+		<h1>{props.time}</h1>
+	);
+}
+
+function Toggle(props) {
+	return (
+		<button onClick={props.onClick}>{props.toggleState}</button>
+	);
+}
+
+function Reset(props) {
+	return (
+		<button onClick={props.onClick} className="reset">reset</button>
+	);
+}
+
+
 class Stopwatch extends React.Component {
 
 	constructor() {
@@ -10,42 +29,46 @@ class Stopwatch extends React.Component {
 
 		this.state = {
 			time: 0,
-			button: true,
-			buttonToggle: 'start',
+			ready: true,
+			toggleState: 'start',
 		};
 	}
 
 
-	onOffStopwatch() {
-		this.setState({button: !this.state.button});
+	toggleStopwatch() {
+		this.setState({ready: !this.state.ready});
 
-		if(this.state.button) {
+		if(this.state.ready) {
+
 			this.StopwatchId = setInterval(() => this.setState({time: this.state.time+1}), 100);
-			this.setState({ buttonToggle: 'stop' });
+			this.setState({ toggleState: 'stop' });
 			document.querySelector('.reset').style.display = 'block';
+
 		} else {
+
 			clearInterval(this.StopwatchId);
-			this.setState({ buttonToggle: 'start' });
+			this.setState({ toggleState: 'start' });
+
 		}
 	}
 
 	reset() {
 		document.querySelector('.reset').style.display = 'none';
-		this.setState({time: 0});
 		clearInterval(this.StopwatchId);
+		this.setState({time: 0});
 		this.setState({
-			buttonToggle: 'start',
-			button: true,
+			toggleState: 'start',
+			ready: true,
 		 });
 	}
 
 
 	renderStopwatch() {
 		return <div className='stopwatch'>
-			<h1>{this.state.time}</h1>
-			<button onClick = {() => this.onOffStopwatch()}>{this.state.buttonToggle}</button>
-			<button className='reset' onClick = {() => this.reset()}>reset</button>
-		</div>
+				<Time time={this.state.time} />
+				<Toggle onClick = {() => this.toggleStopwatch()} toggleState={this.state.toggleState} />
+				<Reset onClick = {() => this.reset()} />
+			</div>
 	}
 
 
@@ -56,7 +79,6 @@ class Stopwatch extends React.Component {
 	}
 
 }
-
 
 
 ReactDOM.render(
