@@ -9,11 +9,6 @@ function Time(props) {
 	);
 }
 
-function Toggle(props) {
-	return (
-		<button onClick={props.onClick}>{props.toggleState}</button>
-	);
-}
 
 function Reset(props) {
 	return (
@@ -29,30 +24,26 @@ class Stopwatch extends React.Component {
 
 		this.state = {
 			time: 0,
-			ready: true,
+			isReady: true,
 			toggleState: 'start',
 		};
 
 		this.reset = this.reset.bind(this);
-		this.toggleStopwatch = this.toggleStopwatch.bind(this);
+		this.startTime = this.startTime.bind(this);
+		this.stopTime = this.stopTime.bind(this);
 	}
 
+	startTime() {
+		this.setState({isReady: !this.state.isReady});
+		this.StopwatchId = setInterval(() => this.setState({time: this.state.time+1}), 100);
+		this.setState({ toggleState: 'stop' });
+		document.querySelector('.reset').style.display = 'block';
+	}
 
-	toggleStopwatch() {
-		this.setState({ready: !this.state.ready});
-
-		if(this.state.ready) {
-
-			this.StopwatchId = setInterval(() => this.setState({time: this.state.time+1}), 100);
-			this.setState({ toggleState: 'stop' });
-			document.querySelector('.reset').style.display = 'block';
-
-		} else {
-
-			clearInterval(this.StopwatchId);
-			this.setState({ toggleState: 'start' });
-
-		}
+	stopTime() {
+		this.setState({isReady: !this.state.isReady});
+		this.setState({ toggleState: 'start' });
+		clearInterval(this.StopwatchId);
 	}
 
 	reset() {
@@ -61,15 +52,23 @@ class Stopwatch extends React.Component {
 		this.setState({time: 0});
 		this.setState({
 			toggleState: 'start',
-			ready: true,
+			isReady: true,
 		 });
 	}
 
 
 	renderStopwatch() {
+		let button = null;
+
+		if(this.state.isReady) {
+			button = <button onClick={this.startTime}>{this.state.toggleState}</button>
+		} else {
+			button = <button onClick={this.stopTime}>{this.state.toggleState}</button>
+		}
+
 		return <div className='stopwatch'>
 				<Time time={this.state.time} />
-				<Toggle onClick = {this.toggleStopwatch} toggleState={this.state.toggleState} />
+				{button}
 				<Reset onClick = {this.reset} />
 			</div>
 	}
